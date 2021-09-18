@@ -1,0 +1,10 @@
+/node_modules
+/.vscode
+/app/public
+/build
+.env
+yocomproacacias2.sql
+app/.DS_Store
+.DS_Store
+.DS_Store
+data.php
