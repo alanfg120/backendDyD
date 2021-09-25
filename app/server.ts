@@ -13,6 +13,8 @@ import expressJwt from "express-jwt";
 import jwt from "express-jwt";
 
 
+import CajasRoute from './componets/caja/api/caja.api';
+
 const optionsJwt: jwt.Options = {
   secret: process.env.SECRET_TOKEN as string,
   requestProperty: "token",
@@ -34,18 +36,13 @@ export class Servidor {
     this.app.use(cors());
     this.app.use(fileUpload());
     this.app.use(express.json());
-    this.app.use(
+ /*    this.app.use(
       expressJwt(optionsJwt).unless({
         path: [
-          "/usuarios/login",
-          "/usuarios/add",
-          "/usuarios/get/codigo_recuperacion",
-          "/usuarios/anonimo/token",
-          "/tips",
-          /^\/tips\/.*/
+         
         ],
       })
-    );
+    ); */
     this.app.use(
       (
         err: ErrorRequestHandler,
@@ -61,7 +58,7 @@ export class Servidor {
   }
 
   routes(): void {
-  
+    this.app.use('/cajas',CajasRoute)
   }
 
   async listen(): Promise<void> {
