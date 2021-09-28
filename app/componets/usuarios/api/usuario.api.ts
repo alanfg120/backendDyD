@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { sendResponse } from "../../../response";
+import { sendResponse } from "../../../functions";
 import { UsuarioRepositorio } from "../data/usuario.repositorio";
 
 
