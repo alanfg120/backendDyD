@@ -12,8 +12,11 @@ import {
   })
   export class Producto extends Model<Producto> {
     @Column nombre: string;
+    @Column imagen: string;
     @Column descripcion: string;
     @Column cantidad: number;
+    @Column precio: number;
+    @Column costo: number;
     @CreatedAt fecha: Date;
   }
   

@@ -8,3 +8,4 @@ export const sendResponse = (res: Response,response: any) => {
   else 
   res.status(200).json(response)
 }
+

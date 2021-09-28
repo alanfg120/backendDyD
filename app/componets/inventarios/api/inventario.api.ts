@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { sendResponse } from "../../../response";
+import { sendResponse } from "../../../functions";
 import { InventarioRepositorio } from "../data/inventario.repositorio";
 
 const router = Router();

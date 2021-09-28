@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
-import { sendResponse } from "../../../response";
+import { UploadedFile } from "express-fileupload";
+import { sendResponse } from "../../../functions";
 import { ProductoRepositorio } from "../data/producto.repositorio";
 
 
@@ -12,8 +13,9 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.post("/add", async (req: Request, res: Response) => {
-  const caja = req.body;
-  const response = await repositorio.addProducto(caja);
+  const producto = req.body;
+  const file = req.files?.file as UploadedFile;
+  const response = await repositorio.addProducto(producto,file);
   sendResponse(res, response);
 });
 

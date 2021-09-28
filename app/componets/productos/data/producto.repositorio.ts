@@ -1,3 +1,4 @@
+import { UploadedFile } from "express-fileupload";
 import { ErrorResponse } from "../../../interfaces/Error.enum";
 import { Producto } from "../models/producto.model";
 
@@ -16,9 +17,10 @@ export class ProductoRepositorio {
     }
   }
   
-  async addProducto(caja: any): Promise<Producto | ErrorResponse> {
+  async addProducto(caja: any,file: UploadedFile): Promise<Producto | ErrorResponse> {
     try {
       const newCaja = await Producto.create({ ...caja });
+      await file.mv(`${process.env.PRODUCTOS_FOLDER}/${newCaja.id}.jpg`)
       return newCaja;
     } catch (error) {
       console.log(error);
