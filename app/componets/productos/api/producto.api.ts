@@ -3,7 +3,6 @@ import { UploadedFile } from "express-fileupload";
 import { sendResponse } from "../../../functions";
 import { ProductoRepositorio } from "../data/producto.repositorio";
 
-
 const router = Router();
 const repositorio = new ProductoRepositorio();
 
@@ -15,14 +14,15 @@ router.get("/", async (req: Request, res: Response) => {
 router.post("/add", async (req: Request, res: Response) => {
   const producto = req.body;
   const file = req.files?.file as UploadedFile;
-  const response = await repositorio.addProducto(producto,file);
+  const response = await repositorio.addProducto(producto, file);
   sendResponse(res, response);
 });
 
 router.put("/update", async (req: Request, res: Response) => {
   const id = req.body.id;
-  const caja = req.body.caja;
-  const response = await repositorio.updateProducto(id,caja);
+  const producto = req.body;
+  const file = req.files?.file as UploadedFile;
+  const response = await repositorio.updateProducto(id, producto, file);
   sendResponse(res, response);
 });
 

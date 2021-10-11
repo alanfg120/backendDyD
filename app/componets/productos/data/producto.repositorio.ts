@@ -8,7 +8,7 @@ import fs from "fs-extra";
 export class ProductoRepositorio {
   async getProductos(): Promise<Producto[] | ErrorHttpResponse> {
     try {
-      const Productos = await Producto.findAll();
+      const Productos = await Producto.findAll({attributes:{exclude:['codigo']}});
       return Productos;
     } catch (error) {
       console.log(error);
@@ -42,9 +42,9 @@ export class ProductoRepositorio {
     file?: UploadedFile
   ): Promise<boolean | ErrorHttpResponse> {
     try {
-      const [row, cajas] = await Producto.update(
+      const [row, productos] = await Producto.update(
         { ...producto },
-        { where: { id } }
+        { where: { id }}
       );
       if (file) await file.mv(`${process.env.PRODUCTOS_FOLDER}/${id}.jpg`);
       if (row > 0) return true;

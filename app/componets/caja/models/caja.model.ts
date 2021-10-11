@@ -10,7 +10,7 @@ import { Producto } from "../../productos/models/producto.model";
 })
 export class Caja extends Model<Caja> {
 
-  @CreatedAt fecha: Date;
+  
   @Column base: number;
   
   @HasMany(()=> Inventario)
@@ -18,4 +18,5 @@ export class Caja extends Model<Caja> {
 
   @HasMany(()=> Gasto)
   gastos: Gasto[]
+  @CreatedAt fecha: Date;
 }

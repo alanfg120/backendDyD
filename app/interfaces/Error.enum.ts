@@ -6,5 +6,10 @@ export enum ErrorResponse {
     passwordInvalid = "PASS_INVALID",
     empresaExist = "EMPRESA_EXIST",
     calificacionExist = "CALIFICACION_EXITS",
-    emailFailSend = "EMAIL_SEND_FAILD"
+    emailFailSend = "EMAIL_SEND_FAILD",
+    productoExist = "PRODUCT_EXIST"
+  }
+
+  export interface ErrorHttpResponse {
+    error: ErrorResponse
   }

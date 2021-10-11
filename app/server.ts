@@ -12,9 +12,8 @@ import cors from "cors";
 import expressJwt from "express-jwt";
 import jwt from "express-jwt";
 
-
-import CajasRoute from './componets/caja/api/caja.api';
-
+import CajasRoute from "./componets/caja/api/caja.api";
+import ProductosRoute from "./componets/productos/api/producto.api";
 const optionsJwt: jwt.Options = {
   secret: process.env.SECRET_TOKEN as string,
   requestProperty: "token",
@@ -24,7 +23,7 @@ const optionsJwt: jwt.Options = {
 export class Servidor {
   app: Application;
 
-  constructor(private port?: number | string) {    
+  constructor(private port?: number | string) {
     this.app = express();
     this.app.set("port", this.port || process.env.PORT || 3000);
     this.middlewares();
@@ -32,11 +31,11 @@ export class Servidor {
   }
 
   middlewares(): void {
-    this.app.use(express.static(__dirname + "/public"));
     this.app.use(cors());
+    this.app.use(express.static(__dirname + "/public"));
     this.app.use(fileUpload());
     this.app.use(express.json());
- /*    this.app.use(
+    /*    this.app.use(
       expressJwt(optionsJwt).unless({
         path: [
          
@@ -58,7 +57,8 @@ export class Servidor {
   }
 
   routes(): void {
-    this.app.use('/cajas',CajasRoute)
+    this.app.use("/cajas", CajasRoute);
+    this.app.use("/productos", ProductosRoute);
   }
 
   async listen(): Promise<void> {
