@@ -1,4 +1,4 @@
-import { ErrorResponse } from "../../../interfaces/Error.enum";
+import { ErrorHttpResponse, ErrorResponse } from "../../../interfaces/Error.enum";
 import { Venta } from "../models/venta.model";
 
 
@@ -7,13 +7,13 @@ import { Venta } from "../models/venta.model";
 
 export class VentaRepositorio {
     
-  async getVentas(): Promise<Venta[] | ErrorResponse> {
+  async getVentas(): Promise<Venta[] | ErrorHttpResponse> {
     try {
-      const Ventas = await Venta.findAll({});
-      return Ventas;
+      const ventas = await Venta.findAll({});
+      return ventas;
     } catch (error) {
       console.log(error);
-      return ErrorResponse.errorDataBase;
+      return {error: ErrorResponse.errorDataBase};
     }
   }
   
