@@ -14,6 +14,7 @@ import jwt from "express-jwt";
 
 import CajasRoute from "./componets/caja/api/caja.api";
 import ProductosRoute from "./componets/productos/api/producto.api";
+import InventariosRoute from "./componets/inventarios/api/inventario.api";
 const optionsJwt: jwt.Options = {
   secret: process.env.SECRET_TOKEN as string,
   requestProperty: "token",
@@ -59,6 +60,7 @@ export class Servidor {
   routes(): void {
     this.app.use("/cajas", CajasRoute);
     this.app.use("/productos", ProductosRoute);
+    this.app.use("/inventarios", InventariosRoute);
   }
 
   async listen(): Promise<void> {

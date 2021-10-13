@@ -18,7 +18,7 @@ router.post("/add", async (req: Request, res: Response) => {
 
 router.put("/update", async (req: Request, res: Response) => {
   const id = req.body.id;
-  const caja = req.body.caja;
+  const caja = req.body;
   const response = await repositorio.updateCaja(id,caja);
   sendResponse(res, response);
 });

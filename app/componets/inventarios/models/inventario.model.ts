@@ -1,4 +1,4 @@
-import { Table, Column, Model, CreatedAt, ForeignKey, Unique, BelongsTo } from "sequelize-typescript";
+import { Table, Column, Model, CreatedAt, ForeignKey, Unique, BelongsTo, PrimaryKey } from "sequelize-typescript";
 import { Caja } from "../../caja/models/caja.model";
 import { Producto } from "../../productos/models/producto.model";
 
@@ -7,12 +7,13 @@ import { Producto } from "../../productos/models/producto.model";
   updatedAt: false,
 })
 export class Inventario extends Model<Inventario> {
+  @PrimaryKey
   @ForeignKey(() => Caja)
   @Column
   id_caja : number;
-
+  
+  @PrimaryKey
   @ForeignKey(() => Producto)
-  @Unique
   @Column
   id_producto : number;
 
@@ -23,8 +24,8 @@ export class Inventario extends Model<Inventario> {
   fecha : Date;
 
   @BelongsTo(() => Caja)
-  categoria : Caja;
+  caja : Caja;
 
   @BelongsTo(() => Producto)
-  productos : Producto;
+  producto : Producto;
 }

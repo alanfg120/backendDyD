@@ -17,15 +17,16 @@ router.post("/add", async (req: Request, res: Response) => {
 });
 
 router.put("/update", async (req: Request, res: Response) => {
-  const id = req.body.id;
-  const caja = req.body.caja;
-  const response = await repositorio.updateInventario(id,caja);
+  const id = req.body.id_producto;
+  const inventario = req.body;
+  const response = await repositorio.updateInventario(id, inventario);
   sendResponse(res, response);
 });
 
-router.delete("/:id", async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const response = await repositorio.deleteInventario(+id);
+router.delete("/:id_producto/:id_caja", async (req: Request, res: Response) => {
+  const id_producto = req.params.id_producto;
+  const id_caja = req.params.id_caja;
+  const response = await repositorio.deleteInventario(+id_producto, +id_caja);
   sendResponse(res, response);
 });
 
