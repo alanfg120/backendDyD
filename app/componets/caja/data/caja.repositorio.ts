@@ -1,31 +1,71 @@
-import { ErrorResponse } from "../../../interfaces/Error.enum";
+import { Includeable } from "sequelize/types";
+import {
+  ErrorHttpResponse,
+  ErrorResponse,
+} from "../../../interfaces/Error.enum";
+import { Factura } from "../../facturas/models/factura.model";
 import { Gasto } from "../../gastos/models/gasto.model";
 import { Inventario } from "../../inventarios/models/inventario.model";
 import { Producto } from "../../productos/models/producto.model";
+import { Venta } from "../../ventas/models/venta.model";
 import { Caja } from "../models/caja.model";
 
-export class CajaRepositorio {
-  async getCajas(): Promise<Caja[] | ErrorResponse> {
-    try {
-      const cajas = await Caja.findAll({
+const includeOptions: Includeable[] = [
+  {
+    model: Inventario,
+    include: [
+      {
+        model: Producto,
+        attributes: { exclude: ["codigo", "cantidad", "fecha"] },
+      },
+    ],
+    attributes: { exclude: ["id_caja", "id_producto", "fecha"] },
+  },
+  Gasto,
+  {
+    model: Venta,
+    include: [
+      {
+        model: Factura,
+        attributes: { exclude: ["numero", "id_producto", "fecha"] },
         include: [
           {
-            model: Inventario,
-            include: [
-              {
-                model: Producto,
-                attributes: { exclude: ["codigo", "cantidad"] },
-              },
-            ],
-            attributes: { exclude: ["id_caja", "id_producto"] },
+            model: Producto,
+            attributes: {
+              exclude: ["codigo", "cantidad", "fecha"],
+            },
           },
-          Gasto,
         ],
+      },
+    ],
+  },
+];
+
+export class CajaRepositorio {
+  async getCajas(all: boolean = true): Promise<Caja[] | ErrorResponse> {
+    try {
+      const cajas = await Caja.findAll({
+        include: includeOptions,
+        order: [[{ model: Inventario, as: "inventarios" }, "fecha", "ASC"]],
+        where: all ? undefined : { activa: true },
       });
       return cajas;
     } catch (error) {
       console.log(error);
       return ErrorResponse.errorDataBase;
+    }
+  }
+
+  async getCajaByFecha(): Promise<Caja[] | ErrorHttpResponse> {
+    try {
+      const caja = await Caja.findAll({
+        where: { fecha: "14/10/2021" },
+        include: includeOptions,
+      });
+      return caja;
+    } catch (error) {
+      console.log(error);
+      return { error: ErrorResponse.errorDataBase };
     }
   }
 
@@ -56,6 +96,20 @@ export class CajaRepositorio {
     } catch (error) {
       console.log(error);
       return ErrorResponse.errorDataBase;
+    }
+  }
+
+  async activarCaja(
+    id: number,
+    activa: boolean
+  ): Promise<boolean | ErrorHttpResponse> {
+    try {
+      const [rows, cajas] = await Caja.update({ activa }, { where: { id } });
+      if (rows > 0) return true;
+      else return false;
+    } catch (error) {
+      console.log(error);
+      return { error: ErrorResponse.errorDataBase };
     }
   }
 }

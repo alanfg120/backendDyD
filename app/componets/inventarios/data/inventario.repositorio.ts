@@ -78,4 +78,14 @@ export class InventarioRepositorio {
       return false;
     }
   }
+  static async updateInventarioOfVenta(cantidad: number, id_producto: number) {
+    await Inventario.increment(
+      { cantidad: -cantidad },
+      { where: { id_producto } }
+    );
+    await Inventario.increment(
+      { cantidad_vendida: +cantidad },
+      { where: { id_producto } }
+    );
+  }
 }

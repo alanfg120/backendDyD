@@ -16,6 +16,7 @@ import CajasRoute from "./componets/caja/api/caja.api";
 import ProductosRoute from "./componets/productos/api/producto.api";
 import InventariosRoute from "./componets/inventarios/api/inventario.api";
 import GastosRoute from "./componets/gastos/api/gastos.api";
+import VentasRoute from "./componets/ventas/api/venta.api";
 const optionsJwt: jwt.Options = {
   secret: process.env.SECRET_TOKEN as string,
   requestProperty: "token",
@@ -63,6 +64,7 @@ export class Servidor {
     this.app.use("/productos", ProductosRoute);
     this.app.use("/inventarios", InventariosRoute);
     this.app.use("/gastos", GastosRoute);
+    this.app.use("/ventas", VentasRoute);
   }
 
   async listen(): Promise<void> {
