@@ -5,12 +5,11 @@ import {
   CreatedAt,
   ForeignKey,
   PrimaryKey,
-  BelongsTo,
   HasMany,
+  Default,
 } from "sequelize-typescript";
-import { Caja } from "../../caja/models/caja.model";
 import { Factura } from "../../facturas/models/factura.model";
-import { Producto } from "../../productos/models/producto.model";
+
 
 @Table({
   tableName: "ventas",
@@ -22,16 +21,17 @@ export class Venta extends Model<Venta> {
   @ForeignKey(() => Factura)
   @Column
   numero: number;
-
-  @ForeignKey(() => Caja)
+   
   @Column
-  id_caja: number;
+  mesa: number;
+
+  @Default(false)
+  @Column
+  pagada: boolean;
 
   @CreatedAt fecha: Date;
 
   @HasMany(() => Factura)
   productos : Factura[];
 
-  @BelongsTo(() => Caja)
-  caja : Caja;
 }

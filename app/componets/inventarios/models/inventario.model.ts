@@ -17,10 +17,6 @@ import { Producto } from "../../productos/models/producto.model";
   updatedAt: false,
 })
 export class Inventario extends Model<Inventario> {
-  @PrimaryKey
-  @ForeignKey(() => Caja)
-  @Column
-  id_caja: number;
 
   @PrimaryKey
   @ForeignKey(() => Producto)
@@ -36,9 +32,6 @@ export class Inventario extends Model<Inventario> {
 
   @CreatedAt
   fecha: Date;
-
-  @BelongsTo(() => Caja)
-  caja: Caja;
 
   @BelongsTo(() => Producto)
   producto: Producto;

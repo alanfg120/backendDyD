@@ -14,6 +14,7 @@ interface ProductoFacturado {
 }
 
 export class VentaRepositorio {
+
   async getVentas(): Promise<Venta[] | ErrorHttpResponse> {
     try {
       const ventas = await Venta.findAll({
@@ -38,8 +39,8 @@ export class VentaRepositorio {
       return { error: ErrorResponse.errorDataBase };
     }
   }
-  async getVentasByIdCaja(
-    id_caja: number
+  async getVentasByMesa(
+    mesa: number
   ): Promise<Venta[] | ErrorHttpResponse> {
     try {
       const ventas = await Venta.findAll({
@@ -57,7 +58,7 @@ export class VentaRepositorio {
             ],
           },
         ],
-        where: {id_caja}
+        where: {mesa,pagada: false}
       }
       );
       return ventas;
@@ -71,7 +72,7 @@ export class VentaRepositorio {
     try {
       const numero = (await this.getMaxVentaId()) + 1;
       const newVenta = await Venta.create({ numero, id_caja: venta.id_caja });
-      await this.addFacturAndUpdateInventario(venta.productos, numero);
+      await this.addFacturaAndUpdateInventario(venta.productos, numero);
       return true;
     } catch (error) {
       console.log(error);
@@ -103,7 +104,7 @@ export class VentaRepositorio {
     return (await Venta.max("numero")) || 0;
   }
 
-  private async addFacturAndUpdateInventario(
+  private async addFacturaAndUpdateInventario(
     productos: ProductoFacturado[],
     numero: number
   ) {

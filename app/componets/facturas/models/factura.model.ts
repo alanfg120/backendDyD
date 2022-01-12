@@ -28,6 +28,7 @@ import { Venta } from "../../ventas/models/venta.model";
     id_producto: number;
   
     @Column cantidad: number;
+    @Column precio: number;
     @CreatedAt fecha: Date;
   
     @BelongsTo(() => Producto)

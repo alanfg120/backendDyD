@@ -10,44 +10,14 @@ import { Producto } from "../../productos/models/producto.model";
 import { Venta } from "../../ventas/models/venta.model";
 import { Caja } from "../models/caja.model";
 
-const includeOptions: Includeable[] = [
-  {
-    model: Inventario,
-    include: [
-      {
-        model: Producto,
-        attributes: { exclude: ["codigo", "cantidad", "fecha"] },
-      },
-    ],
-    attributes: { exclude: ["id_caja", "id_producto", "fecha"] },
-  },
-  Gasto,
-  {
-    model: Venta,
-    include: [
-      {
-        model: Factura,
-        attributes: { exclude: ["numero", "id_producto", "fecha"] },
-        include: [
-          {
-            model: Producto,
-            attributes: {
-              exclude: ["codigo", "cantidad", "fecha"],
-            },
-          },
-        ],
-      },
-    ],
-  },
-];
+
 
 export class CajaRepositorio {
   async getCajas(all: boolean = true): Promise<Caja[] | ErrorResponse> {
     try {
       const cajas = await Caja.findAll({
-        include: includeOptions,
-        order: [[{ model: Inventario, as: "inventarios" }, "fecha", "ASC"]],
-        where: all ? undefined : { activa: true },
+        include: [Gasto],
+        order: [["fecha", "ASC"]],
       });
       return cajas;
     } catch (error) {
@@ -60,7 +30,7 @@ export class CajaRepositorio {
     try {
       const caja = await Caja.findAll({
         where: { fecha: "14/10/2021" },
-        include: includeOptions,
+        include: [Gasto],
       });
       return caja;
     } catch (error) {

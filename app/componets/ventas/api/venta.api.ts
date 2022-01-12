@@ -10,9 +10,9 @@ router.get("/", async (req: Request, res: Response) => {
   sendResponse(res, response);
 });
 
-router.get("/idCaja/:id", async (req: Request, res: Response) => {
-  const id_caja = req.params.id;
-  const response = await repositorio.getVentasByIdCaja(+id_caja);
+router.get("/mesa/:id", async (req: Request, res: Response) => {
+  const mesa = req.params.id;
+  const response = await repositorio.getVentasByMesa(+mesa);
   sendResponse(res, response);
 });
 

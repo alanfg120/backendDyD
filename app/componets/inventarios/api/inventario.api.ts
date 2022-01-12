@@ -23,10 +23,9 @@ router.put("/update", async (req: Request, res: Response) => {
   sendResponse(res, response);
 });
 
-router.delete("/:id_producto/:id_caja", async (req: Request, res: Response) => {
+router.delete("/:id_producto/", async (req: Request, res: Response) => {
   const id_producto = req.params.id_producto;
-  const id_caja = req.params.id_caja;
-  const response = await repositorio.deleteInventario(+id_producto, +id_caja);
+  const response = await repositorio.deleteInventario(+id_producto);
   sendResponse(res, response);
 });
 

@@ -9,7 +9,7 @@ import cvsToJson from "csvtojson";
 export class InventarioRepositorio {
   async getInventarios(): Promise<Inventario[] | ErrorResponse> {
     try {
-      const inventarios = await Inventario.findAll({});
+      const inventarios = await Inventario.findAll({include:[Producto]});
       return inventarios;
     } catch (error) {
       console.log(error);
@@ -51,10 +51,9 @@ export class InventarioRepositorio {
   }
   async deleteInventario(
     id_producto: number,
-    id_caja: number
   ): Promise<boolean | ErrorResponse> {
     try {
-      const row = await Inventario.destroy({ where: { id_producto, id_caja } });
+      const row = await Inventario.destroy({ where: { id_producto } });
       if (row > 0) return true;
       else return false;
     } catch (error) {
